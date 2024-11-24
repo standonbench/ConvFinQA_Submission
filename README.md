@@ -8,7 +8,7 @@
 
 2. Ensure Ollama is installed https://ollama.com/
 
-3. Pull the Qwen2-Math modeel
+3. Pull the Qwen2-Math model
     ```bash
     ollama pull qwen2-math
     ```
