@@ -90,7 +90,7 @@ def evaluate_dataset(dataset_path: str, num_samples: int = None):
             print("Entry structure:", json.dumps(entry, indent=2)[:200] + "...")
             continue
     
-    # Final statistics
+   # Final statistics
     total = len(results)
     print(f"\n=== Final Results ===")
     print(f"Total Questions: {total}")
@@ -98,5 +98,21 @@ def evaluate_dataset(dataset_path: str, num_samples: int = None):
     print(f"Close Matches: {running_stats['close_matches']} ({running_stats['close_matches']/total:.1%})")
     total_correct = running_stats["exact_matches"] + running_stats["close_matches"]
     print(f"Total Correct: {total_correct} ({total_correct/total:.1%})")
+    
+    # save results
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    save_path = Path("results")
+    save_path.mkdir(exist_ok=True)
+    
+    # Save detailed results and statistics
+    with open(save_path / f"evaluation_results_{timestamp}.json", "w") as f:
+        json.dump({
+            "total_questions": total,
+            "exact_matches": running_stats['exact_matches'],
+            "close_matches": running_stats['close_matches'],
+            "total_correct": total_correct,
+            "accuracy": total_correct/total,
+            "detailed_results": results  # This contains all individual question results
+        }, f, indent=2)
     
     return results
